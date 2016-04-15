@@ -27,6 +27,7 @@ BARELY_WINNING_BOARD = ConnectFourBoard(board_array =
 
 ANSWER1_getargs = "ANSWER1"
 
+#test1
 def ANSWER1_testanswer(val, original_val = None):
     return ( val == 3 )
 
@@ -39,6 +40,7 @@ make_test(type = 'VALUE',
 
 ANSWER2_getargs = "ANSWER2"
 
+#test2
 def ANSWER2_testanswer(val, original_val = None):
     return ( val == 2 )
 
@@ -48,7 +50,7 @@ make_test(type = 'VALUE',
           expected_val = "2",
           name = ANSWER2_getargs
           )
-
+#test3
 def run_test_search_1_getargs():
     return [ 'minimax', 'WINNING_BOARD', 2, 'focused_evaluate' ]
 
@@ -61,7 +63,7 @@ make_test(type = 'FUNCTION',
           expected_val = "1",
           name = 'run_test_search'
           )
-
+#test4
 def run_test_search_2_getargs():
     return [ 'minimax', 'BARELY_WINNING_BOARD', 2, 'focused_evaluate' ]
 
@@ -74,7 +76,7 @@ make_test(type = 'FUNCTION',
           expected_val = "3",
           name = 'run_test_search'
           )
-    
+#test5    
 def run_test_search_3_getargs():
     return [ 'alpha_beta_search', 'WINNING_BOARD', 2, 'focused_evaluate' ]
 
@@ -93,6 +95,7 @@ make_test(type = 'FUNCTION',
 # Test alpha beta search using the tree_search framework,
 # see tree_search.py
 #
+#test6
 TEST_TREE_1 = tree_searcher.make_tree(("A", None,
                                        ("B", None,
                                         ("C", None,
@@ -126,7 +129,7 @@ make_test(type = 'FUNCTION',
           expected_val = TREE_1_EXPECTED_BEST_MOVE,
           name = 'run_test_tree_search'
           )
-
+#test7
 TEST_TREE_2 = tree_searcher.make_tree(("A", None,
                                        ("B", None,
                                         ("C", None,
@@ -160,7 +163,7 @@ make_test(type = 'FUNCTION',
           expected_val = TREE_2_EXPECTED_BEST_MOVE,
           name = 'run_test_tree_search'
           )
-
+#test8
 TEST_TREE_3 = tree_searcher.make_tree(("A", None,
                                        ("B", None,
                                         ("E", None,
@@ -210,7 +213,7 @@ make_test(type = 'FUNCTION',
           name = 'run_test_tree_search'
           )
 
-
+#test9
 def run_test_search_4_getargs():
     return [ 'alpha_beta_search', 'BARELY_WINNING_BOARD', 2, 'focused_evaluate' ]
 
@@ -223,7 +226,7 @@ make_test(type = 'FUNCTION',
           expected_val = "3",
           name = 'run_test_search'
           )
-
+#test10
 def run_test_search_5_getargs():
     return [ 'alpha_beta_search', 'WINNING_BOARD', 2, 'better_evaluate' ]
 
@@ -236,7 +239,7 @@ make_test(type = 'FUNCTION',
           expected_val = "1",
           name = 'run_test_search'
           )
-
+#test11
 def run_test_search_6_getargs():
     return [ 'alpha_beta_search', 'BARELY_WINNING_BOARD', 2, 'better_evaluate' ]
 
@@ -251,7 +254,7 @@ make_test(type = 'FUNCTION',
           )
 
 TIME_DICT = { 'time': -1 }
-
+#test12
 def run_test_search_7_getargs():
     TIME_DICT['time'] = time()
     return [ 'alpha_beta_search', 'BASIC_BOARD', 6, 'basic_evaluate' ]
@@ -271,7 +274,7 @@ make_test(type = 'FUNCTION',
           expected_val = "Any legitimate column is ok; the purpose of this test is to confirm that the test ends in a reasonable amount of time",
           name = 'run_test_search'
           )
-
+#test13
 def run_test_game_1_getargs():
     return [ [ 'your_player', 'basic_player', 'BASIC_STARTING_BOARD_1' ],
              [ 'basic_player', 'your_player', 'BASIC_STARTING_BOARD_1' ],
@@ -314,7 +317,7 @@ if True:
               )
 
 COMPETE_getargs = "COMPETE"
-
+#test14
 def COMPETE_testanswer(val, original_val = None):
     return ( val in (True, False) )
 
@@ -326,7 +329,7 @@ make_test(type = 'VALUE',
           )
 
 HOW_MANY_HOURS_THIS_PSET_TOOK_getargs = "HOW_MANY_HOURS_THIS_PSET_TOOK"
-
+#test15
 def HOW_MANY_HOURS_THIS_PSET_TOOK_testanswer(val, original_val = None):
     return ( val != '' )
 
@@ -338,7 +341,7 @@ make_test(type = 'VALUE',
           )
 
 WHAT_I_FOUND_INTERESTING_getargs = "WHAT_I_FOUND_INTERESTING"
-
+#test16
 def WHAT_I_FOUND_INTERESTING_testanswer(val, original_val = None):
     return ( val != '' )
 
@@ -350,7 +353,7 @@ make_test(type = 'VALUE',
           )
 
 WHAT_I_FOUND_BORING_getargs = "WHAT_I_FOUND_BORING"
-
+#test17
 def WHAT_I_FOUND_BORING_testanswer(val, original_val = None):
     return ( val != '' )
 

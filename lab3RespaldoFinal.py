@@ -1,6 +1,7 @@
 # IC 6200 1er Semestre 2016
 # Nombre: Kathy Brenes Guerrero
 # Correo: KathyBG.20@gmail.com
+
 from util import INFINITY
 
 ### 1. Escogencia multiple
@@ -35,7 +36,7 @@ import tree_searcher
 ## el juego interactivamente. Asegurese de re-comentar cuando ha terminado con
 ## ellos.  Por favor no entregue su tarea con partes de codigo que solicitan
 ## jugar interactivamente!
-##
+## 
 ## Descomente la siguiente linea para jugar el juego como las blancas:
 #run_game(human_player, basic_player)
 
@@ -48,41 +49,39 @@ import tree_searcher
 ## Cambie la siguiente funcion de evaluacion tal que trata de ganar lo mas rapido posible,
 ## o perder lentamente, cuando decide que un jugador esta destina a ganar.
 ## No tiene que cambiar como evalua posiciones que no son ganadoras.
-
-
 def is_horizontal(chain):
     if chain[0][0]==chain[1][0]:
         return True
     else:
         return False
 
-def rev_horizontal(board,chain,playerID,enemy,largo):
+def rev_horizontal(board,chain,playerID,enemy):
     #Si es horizontal reviso que no este bloqueado
     #ni a la derecha ni a la izquierda
     #print "Es horizontal"
     score=0
     #Revisar si al final de la horizontal esta bloqueada,
     #sino si alcanza para llegar a 4
-
+    
     if not is_block(board,chain[0][0],chain[0][1]+1,enemy):
         #print "Entre a no esta bloqueada la primera de la ultima"
-        if not is_block(board,chain[0][0],chain[0][1]+2,enemy) and largo==2:
+        if not is_block(board,chain[0][0],chain[0][1]+2,enemy):
             #Tengo dos casillas disponibles
             score= score + 300
         score= score + 300;
         #print "NO esta bloqueada"
         #print score
-
+     
 
     ##### Revisa si el inicio de la hilera horizontal esta bloqueada
     if not is_block(board,chain[0][0],chain[len(chain)-1][1]-1,enemy):
-        if not is_block(board,chain[0][0],chain[len(chain)-1][1]-2,enemy) and largo==2:
+        if not is_block(board,chain[0][0],chain[len(chain)-1][1]-2,enemy):
             #Se tienen dos posibles casillas antes de la hilera
             score= score + 300;
         #print"No esta bloqueada"
         score= score + 300;
-
-
+        
+    
     return score
 
 def is_vertical(chain):
@@ -91,60 +90,60 @@ def is_vertical(chain):
         return True
     else:
         return False
-
-def rev_vertical(board,chain,playerID,enemy,largo):
+    
+def rev_vertical(board,chain,playerID,enemy):
     #Si es vertical reviso que no este bloqueado
     #ni arriba ni abajo
     #print "Es vertical"
-    score=0
+    score=0 
     ##### Revisar si el de mas arriba se encuentra bloqueado
     if not is_block(board,chain[len(chain)-1][0]-1,chain[len(chain)-1][1],enemy):
-        if not is_block(board,chain[len(chain)-1][0]-2,chain[len(chain)-1][1],enemy) and largo==2:
+        if not is_block(board,chain[len(chain)-1][0]-2,chain[len(chain)-1][1],enemy):
             #Se tienen dos posibles casillas antes de la hilera
             score= score + 300;
         #print"No esta bloqueada"
         score= score + 300;
-
+        
     return score
 
 def rev_diagonal(board,chain,playerID):
     #Si es diagonal reviso que no este bloqueado
     #ni arriba adelante o arriba atras ni abajo atras ni abajo adelante
     #print "Es diagonal"
-    score=0
-    ##### Revisar si el de mas abajo atras se encuentra bloqueado
+    score=0 
+    ##### Revisar si el de mas abajo atras se encuentra bloqueado   
     if is_free(board,chain[0][0]+1,chain[0][1]-1):
         if is_free(board,chain[0][0]+2,chain[0][1]-2):
             #Se tienen dos posibles casillas antes de la hilera
             score= score + 150;
         #print"No esta bloqueada"
         score= score + 150;
-
-
-    ##### Revisar si el de mas abajo adelante se encuentra bloqueado
+    
+        
+    ##### Revisar si el de mas abajo adelante se encuentra bloqueado   
     if is_free(board,chain[0][0]+1,chain[0][1]+1):
         if is_free(board,chain[0][0]+2,chain[0][1]+2):
             #Se tienen dos posibles casillas antes de la hilera
             score= score + 150;
         #print"No esta bloqueada"
         score= score + 150;
-
-    ##### Revisar si el de mas arriba atras se encuentra bloqueado
+       
+    ##### Revisar si el de mas arriba atras se encuentra bloqueado   
     if is_free(board,chain[0][0]-1,chain[0][1]-1):
         if is_free(board,chain[0][0]-2,chain[0][1]-2):
             #Se tienen dos posibles casillas antes de la hilera
             score= score + 150;
         #print"No esta bloqueada"
         score= score + 150;
-
-    ##### Revisar si el de mas arriba adelante se encuentra bloqueado
+         
+    ##### Revisar si el de mas arriba adelante se encuentra bloqueado   
     if is_free(board,chain[0][0]-1,chain[0][1]+1):
         if is_free(board,chain[0][0]-1,chain[0][1]+2):
             #Se tienen dos posibles casillas antes de la hilera
             score= score + 150;
         #print"No esta bloqueada"
         score= score + 150;
-
+    
     #### Revisa si el de mas adelante
     return score
 
@@ -182,19 +181,18 @@ def focused_evaluate(board):
             score = 100000
         else:
             score = -100000
-    else:
+    else:        
         chains= board.chain_cells(playerID)
         for chain in chains:
             #print chain
             if len(chain)>1:
                 if is_horizontal(chain):
-                    score= score+rev_horizontal(board,chain,playerID,enemy,len(chain))
+                    score= score+rev_horizontal(board,chain,playerID,enemy)                    
                 elif is_vertical(chain):
                     #Revisa si esta bloqueado arriba o abajo
-                    score= score+rev_vertical(board,chain,playerID,enemy,len(chain))
+                    score= score+rev_vertical(board,chain,playerID,enemy) 
                 else:
                     #Es diagonal
-                    #print chain
                     score= score + rev_diagonal(board,chain,playerID)
 
         chainsAgainst= board.chain_cells(enemy)
@@ -202,14 +200,17 @@ def focused_evaluate(board):
             #print against
             if len(against)>1:
                 if is_horizontal(against):
-                    score= score-rev_horizontal(board,against,enemy,playerID,len(chain))
+                    score= score-rev_horizontal(board,against,enemy,playerID)                    
                 elif is_vertical(against):
                     #Revisa si esta bloqueado arriba o abajo
-                    score= score-rev_vertical(board,against,enemy,playerID,len(chain))
+                    score= score-rev_vertical(board,against,enemy,playerID) 
                 else:
                     #Es diagonal
-                    score= score - rev_diagonal(board,against,enemy)
+                    score= score - rev_diagonal(board,against,enemy)        
     return score
+
+
+
 ## Crea una funcion "jugador" que utiliza la funcion focused_evaluate function
 quick_to_win_player = lambda board: minimax(board, depth=4,
                                             eval_fn=focused_evaluate)
@@ -223,49 +224,83 @@ quick_to_win_player = lambda board: minimax(board, depth=4,
 ## contando la cantidad de evaluaciones estaticas que hace
 ##
 ## Puede utilizar el minimax() que se encuentra basicplayer.py como ejemplo.
-def alpha_beta_search(board, depth,
-                      eval_fn,
-                      # NOTE: You should use get_next_moves_fn when generating
-                      # next board configurations, and is_terminal_fn when
-                      # checking game termination.
-                      # The default functions set here will work
-                      # for connect_four.
-                      get_next_moves_fn=get_all_next_moves,
-              is_terminal_fn=is_terminal):
-    #Debe retornar el numero de columna
-    #alpha limite inferior
-    #beta limite superior
-    best_val = None
-    for move, new_board in get_next_moves_fn(board):
-        score = -1 * alphaBetaMax(new_board, depth-1, eval_fn, NEG_INFINITY, INFINITY, get_next_moves_fn, is_terminal_fn)
-        if best_val == None or score > best_val[0]:
-            best_val = (score, move, new_board)
-
-    return best_val[1]
-
-def alphaBetaMax(board, depth, eval_fn, alpha, beta, get_next_moves_fn=get_all_next_moves, is_terminal_fn=is_terminal):
+##########funcion minimax para el alpha beta
+def alphaBetaMax(board, depth,alpha,beta,best_move,eval_fn,
+                             get_next_moves_fn=get_all_next_moves,
+                             is_terminal_fn=is_terminal):
     """
     Funcion de ayuda a Minimax: Retorna el valor minimax de un tablero particular,
     dado una profundidad con la cual estimar
     """
-    if is_terminal_fn(depth, board):
+    if is_terminal_fn(depth, board) or depth<=0:
         return eval_fn(board)
-
+    score=-99999
     for move, new_board in get_next_moves_fn(board):
-        alpha = max(alpha, -alphaBetaMax(new_board, depth-1, eval_fn, -beta, -alpha, get_next_moves_fn, is_terminal_fn))
-        if alpha >= beta:
-            return alpha
-    return alpha
+        score = max(score,alphaBetaMin(new_board,depth-1,alpha, beta,move,eval_fn,get_next_moves_fn,is_terminal_fn))
+        if score >= beta:           
+            return score            
+        if score > alpha:            
+            alpha = score          
+            
+    return score
 
+def alphaBetaMin(board, depth,alpha,beta,best_move,eval_fn,
+                             get_next_moves_fn=get_all_next_moves,
+                             is_terminal_fn=is_terminal):
+    """
+    Funcion de ayuda a Minimax: Retorna el valor minimax de un tablero particular,
+    dado una profundidad con la cual estimar
+    """
+    if is_terminal_fn(depth, board) or depth<=0:
+        return abs(eval_fn(board))  
+   
+    score=99999    
+    for move, new_board in get_next_moves_fn(board):       
+        score = min(score,alphaBetaMax(new_board,depth-1,alpha, beta,move,eval_fn,get_next_moves_fn,is_terminal_fn))        
+        if score <= alpha:            
+            return score
+        if score < beta:            
+            beta= score            
+            
+    return score
 
-## Ahora deberia ser capaz de buscar al doble de profundidad en la misma cantidad de tiempo.
+def alpha_beta_search(board, depth,
+                      eval_fn,
+                      # NOTA: usted debe utilizar get_next_moves_fn cuando genera
+                      # configuraciones de proximos tableros, y utilizar is_terminal_fn para
+                      # revisar si el juego termino.
+                      # Las funciones que por defecto se asignan aqui funcionarar 
+                      # para connect_four.
+                      get_next_moves_fn=get_all_next_moves,
+		      is_terminal_fn=is_terminal):
+    
+    #Debe retornar el numero de columna
+    #alpha limite inferior
+    #beta limite superior
+    values = []
+    best_val = None
+    alpha= -9999
+    beta= 9999
+    score=-9999
+    for move, new_board in get_next_moves_fn(board):        
+        score = max(score,alphaBetaMin(new_board,depth-1,alpha, beta,move,eval_fn,get_next_moves_fn,is_terminal_fn))        
+        values.append((score,move, new_board))
+        if best_val== None or score > best_val[0]:
+            best_val = (score,move, new_board)           
+                      
+    print values
+    return best_val[1]
+    
+    
+
+##  Ahora deberia ser capaz de buscar al doble de profundidad en la misma cantidad de tiempo.
 ## (Claro que este jugador alpha-beta-player no funcionara hasta que haya definido
-## alpha-beta-search.)
+##  alpha-beta-search.)
 alphabeta_player = lambda board: alpha_beta_search(board,
-                                                  depth=8,
-                                                  eval_fn=focused_evaluate)
+                                                   depth=8,
+                                                   eval_fn=focused_evaluate)
 
-## Este jugador utiliza profundidad iterativa, asi que le puede ganar mientras hace uso
+## Este jugador utiliza profundidad iterativa, asi que le puede ganar mientras hace uso 
 ## eficiente del tiempo:
 ab_iterative_player = lambda board: \
     run_search_function(board,
@@ -278,37 +313,85 @@ ab_iterative_player = lambda board: \
 ## simple-evaluate (or focused-evaluate) while searching to the
 ## same depth.
 
-def mejor_jugada(tipoMovimiento, board, fila, columna, jugadorTurno):
-    score = 0
-    for chain in range(3):
-        if tipoMovimiento == 0 and board.get_cell(fila, columna+chain) == jugadorTurno:
-            score += 1
-        elif tipoMovimiento == 1 and board.get_cell(fila+chain, columna) == jugadorTurno:
-            score += 1
-        elif tipoMovimiento == 2 and board.get_cell(fila+chain, columna+chain) == jugadorTurno:
-            score += 1
+"""def better_evaluate(board):
+    jugadorActual = board.get_current_player_id()
+    if board.is_game_over():
+        score= -1000
+    else:
+         for fila in range(6):
+            for col in range(7):
+                if board.get_cell(row, col) == jugadorActual:
+                    score -= abs(3-col)
+                elif board.get_cell(row, col) == board.get_other_player_id():
+                    score += abs(3-col)
+        
     return score
+"""
+
+def get_horizontal_chain_len(board, row, col, player):
+    count = 0
+    for i in range(3):
+        if board.get_cell(row, col+i) == player:
+            count += 1
+    return count
+
+def get_vertical_chain_len(board, row, col, player):
+    count = 0
+    for i in range(3):
+        if board.get_cell(row+i, col) == player:
+            count += 1
+    return count
+
+def get_diagonal_chain_len(board, row, col, player):
+    count = 0
+    for i in range(3):
+        if board.get_cell(row+i, col+i) == player:
+            count += 1
+    return count
+
+
 
 
 def better_evaluate(board):
-    score = 0
-    actual = board.get_current_player_id()
-    enemigo = board.get_other_player_id()
-    scoreActual=[]
-    scoreEnemigo=[]
+    #raise NotImplementedError
 
+    score = 0
+    '''
+    Calculate how many chains you and your opponent has according to the number of
+    tokens on the board.
+    '''
+    # from focused_evaluate
     if board.longest_chain(board.get_current_player_id()) == 4:
         score = 2000 - board.num_tokens_on_board()
     elif board.longest_chain(board.get_other_player_id()) == 4:
         score = -2000 + board.num_tokens_on_board()
+
+   
     else:
+        #calculate own positions
+        current_player = board.get_current_player_id() 
+        for row in range(3):
+            for col in range(4):
+                h1 = get_horizontal_chain_len(board, row, col, current_player)
+                v1 = get_vertical_chain_len(board, row, col, current_player)
+                d1 = get_diagonal_chain_len(board, row, col, current_player)
+                m1 = max([h1, v1, d1])
+                score += m1*m1
 
-        for fila in range(3):
-            for columna in range(4):
-                score += max([mejor_jugada(chainActual, board, fila, columna, actual) for chainActual in range(3)])**2
-                score -= max([mejor_jugada(chainEnemigo, board, fila, columna, enemigo) for chainEnemigo in range(3)])**2
+        #calculate other player positions
+        other_player = board.get_other_player_id()
+        for row in range(3):
+            for col in range(4):
+                h2 = get_horizontal_chain_len(board, row, col, other_player)
+                v2 = get_vertical_chain_len(board, row, col, other_player)
+                d2 = get_diagonal_chain_len(board, row, col, other_player)
+                m2 = max([h2, v2, d2])
+                score -= m2*m2
+                
+        
+            
+
     return score
-
 # Comente esta linea una vez que ha implementado completamente better_evaluate
 #better_evaluate = memoize(basic_evaluate)
 
@@ -317,7 +400,7 @@ def better_evaluate(board):
 
 # Para el debugging: Cambie este if-guard a True, para hacer unit-test
 # de su funcion better_evaluate.
-if False:
+if True:
     board_tuples = (( 0,0,0,0,0,0,0 ),
                     ( 0,0,0,0,0,0,0 ),
                     ( 0,0,0,0,0,0,0 ),
@@ -346,7 +429,7 @@ your_player = lambda board: run_search_function(board,
 ## Descomente para ver su jugador jugar un juego:
 #run_game(your_player, your_player)
 
-## Descomente esto (o corralo en una ventana) para ver como le va
+## Descomente esto (o corralo en una ventana) para ver como le va 
 ## en el torneo que sera evaluado.
 #run_game(your_player, basic_player)
 
@@ -354,28 +437,51 @@ your_player = lambda board: run_search_function(board,
 def run_test_game(player1, player2, board):
     assert isinstance(globals()[board], ConnectFourBoard), "Error: can't run a game using a non-Board object!"
     return run_game(globals()[player1], globals()[player2], globals()[board])
-
+    
 def run_test_search(search, board, depth, eval_fn):
     assert isinstance(globals()[board], ConnectFourBoard), "Error: can't run a game using a non-Board object!"
     return globals()[search](globals()[board], depth=depth,
-                            eval_fn=globals()[eval_fn])
+                             eval_fn=globals()[eval_fn])
 
-## Esta funcion corre su implementacion de alpha-beta utilizando un arbol de busqueda
-## en vez de un juego en vivo de connect four.  Esto sera mas facil de debuggear.
+## Esta funcion corre su implementacion de alpha-beta utilizando un arbol de busqueda 
+## en vez de un juego en vivo de connect four.   Esto sera mas facil de debuggear.
 def run_test_tree_search(search, board, depth):
     return globals()[search](globals()[board], depth=depth,
-                            eval_fn=tree_searcher.tree_eval,
-                            get_next_moves_fn=tree_searcher.tree_get_next_move,
-                            is_terminal_fn=tree_searcher.is_leaf)
+                             eval_fn=tree_searcher.tree_eval,
+                             get_next_moves_fn=tree_searcher.tree_get_next_move,
+                             is_terminal_fn=tree_searcher.is_leaf)
 
-## Quiere utilizar su codigo en un torneo con otros estudiantes? Vea
+
+
+def testGame():                      # 0 1 2 3 4 5 6
+   b = ConnectFourBoard(board_array=( (0,0,0,0,0,0,0), #0
+                                      (0,0,0,0,0,0,0), #1
+                                      (0,0,0,0,0,0,0), #2
+                                      (0,0,0,0,0,0,0), #3
+                                      (0,0,0,2,1,2,0), #4
+                                      (0,0,2,1,1,1,2), #5
+                                         ))
+   print focused_evaluate(b)
+   print "Ahora vamos con d"
+   #                                   0 1 2 3 4 5 6
+   d = ConnectFourBoard(board_array=( (0,0,0,0,0,0,0), #0
+                                      (0,0,0,0,0,0,0), #1
+                                      (0,0,0,0,0,0,0), #2
+                                      (2,0,0,0,1,1,0), #3
+                                      (2,2,0,1,1,2,0), #4
+                                      (2,2,2,1,1,1,0), #5
+                                         ))
+   print focused_evaluate(d) 
+## Quiere utilizar su codigo en un torneo con otros estudiantes? Vea 
 ## la descripcion en el enunciado de la tarea. El torneo es opcional
 ## y no tiene efecto en su nota
 COMPETE = False
 
 ## The standard survey questions.
 HOW_MANY_HOURS_THIS_PSET_TOOK = "25"
-WHAT_I_FOUND_INTERESTING = "Calcular las posibles jugadas en un momento dado, en el better_evaluate."
+WHAT_I_FOUND_INTERESTING = "Calcular las posibles jugadas en un momento dado."
 WHAT_I_FOUND_BORING = "Correr las pruebas, porque generalmente toma mucho tiempo."
 NAME = "Kathy Brenes Guerrero"
-EMAIL = "Kathy.20@hotmail.es";
+EMAIL = "Kathy.20@hotmail.es"
+
+testGame();
